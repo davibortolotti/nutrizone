@@ -22,7 +22,6 @@ body {
 	height: 100px;
 }
 .navigation ul {
-	color: #FFF;
 	text-align: right;
 	padding: 33px 200px 33px 40px;
 	margin: 0;
@@ -30,16 +29,40 @@ body {
 
 .fonte-nav{
 	font-size: 30px;
+	color: #FFF;
 }
 .navigation li {
 	display: inline;
 	padding: 0 20px;
 }
 
+#content {
+	position: relative;
+}
 .navlat {
 	margin-top: 40px;
 	margin-left: 40px;
 	height: 500px;
 	width: 240px;
 	border-radius: 16px;
+	position: relative;
+}
+
+.navlat ul {
+	list-style: none;
+	padding-left: 60px;
+	padding-top: 40px;
+}
+
+.navlat ul li {
+	padding-top: 20px;
+}
+
+#imagem {
+	height: 400px;
+	width: 720px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin-right: 200px;
 }
