@@ -1,0 +1,45 @@
+.fundo-branco {
+	background-color: #ECECEC;
+}
+
+.fundo-verde-escuro {
+	background-color: #1E824C;
+}
+
+.fundo-verde-claro {
+	background-color: #C8F7C5;
+}
+
+body {
+	margin: 0;
+}
+.upper-menu {
+	text-align: right;
+	height: 50px;
+}
+
+.navigation {
+	height: 100px;
+}
+.navigation ul {
+	color: #FFF;
+	text-align: right;
+	padding: 33px 200px 33px 40px;
+	margin: 0;
+}
+
+.fonte-nav{
+	font-size: 30px;
+}
+.navigation li {
+	display: inline;
+	padding: 0 20px;
+}
+
+.navlat {
+	margin-top: 40px;
+	margin-left: 40px;
+	height: 500px;
+	width: 240px;
+	border-radius: 16px;
+}
