@@ -1,13 +1,18 @@
 .fundo-branco {
-	background-color: #ECECEC;
+	background-color: #FFF;
 }
 
 .fundo-verde-escuro {
-	background-color: #1E824C;
+	background-color: #EB9532;
 }
 
 .fundo-verde-claro {
-	background-color: #C8F7C5;
+	background-color: #F4B350;
+}
+
+a {
+color: #FFF;
+text-decoration: none;
 }
 
 body {
@@ -38,31 +43,19 @@ body {
 
 #content {
 	position: relative;
-}
-.navlat {
-	margin-top: 40px;
-	margin-left: 40px;
-	height: 500px;
-	width: 240px;
-	border-radius: 16px;
-	position: relative;
-}
-
-.navlat ul {
-	list-style: none;
-	padding-left: 60px;
-	padding-top: 40px;
-}
-
-.navlat ul li {
-	padding-top: 20px;
+	width: 920px;
+	height: 2000px;
+	margin: 0 auto;
 }
 
 #imagem {
+	display: block;
 	height: 400px;
 	width: 720px;
-	position: absolute;
-	right: 0;
-	top: 0;
-	margin-right: 200px;
+	margin: 0 auto;
+	border-radius: 10px;
+}
+
+.description {
+	padding: 20px;
 }

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<p>Nome: {{ food.name }}</p>
+	<p>A cada 100g de </p>
+	<p>Calorias: {{energy.value}}{{energy.unit}}</p> 
+	<p>Açucares: {{sugars.value}}{{sugars.unit}}</p>
+	<p>Gordura: {{fat.value}}{{fat.unit}}</p>
+	<form action="#" method="get">
+		<!-- {% csrf_token %} -->
+		<input type="submit" class="btn" value="Click" name="mybtn">
+	</form>
+	<p>Carrinho: {{cart}} </p>
+{% endblock %}

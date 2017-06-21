@@ -17,27 +17,20 @@
 			</div>
 			<nav class="navigation fundo-verde-escuro fonte-nav">
 				<ul>
-					<li>Sobre</li>
-					<li>Alimentos</li>
-					<li>Seu prato</li>
-					<li>Buscar</li>
+					<li><a href="#">Sobre</a></li>
+					<li><a href="#">Alimentos</a></li>
+					<li><a href="#">Seu prato</a></li>
+					<li><a href="#">Buscar</a></li>
 				</ul>	
 			</nav>
 		</div>
 	</header>
-
-	<section id='content'>
-		<div class="navlat fundo-verde-escuro fonte-nav">
-			<ul>
-				<li>Legumes</li>
-				<li>Frutas</li>
-				<li>Carnes</li>
-				<li>Grãos</li>
-			</ul>
-		</div>
-
+	<section id="content" class="fundo-branco">
 		<div id="alimento">
 			<img src="{% static 'imgs/banana.jpg' %}" id='imagem'>
+			<div class="description">
+				{% block content %} {% endblock %}
+			</div>
 		</div>
-	</section>>
+	</section>
 </body>

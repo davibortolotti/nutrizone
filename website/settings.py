@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nutrizone.apps.NutrizoneConfig',
+    'rest_framework',
 ]
+
+USDA_KEY = 'lKTbGLJTtRu2SEEZMuZyG3iUbnzx5PXehc7NIVE1'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
