@@ -3,13 +3,15 @@
 {% block content %}
 
 	<p>Nome: {{ food.name }}</p>
-	<p>A cada 100g de </p>
+	<p>Cada 100g de {{ food.name|lower }} contém:</p>
 	<p>Calorias: {{energy.value}}{{energy.unit}}</p> 
-	<p>Açucares: {{sugars.value}}{{sugars.unit}}</p>
+	{% if sugars %} <p>Açucares: {{sugars.value}}{{sugars.unit}} </p>{% endif %}
 	<p>Gordura: {{fat.value}}{{fat.unit}}</p>
-	<form action="#" method="get">
-		<!-- {% csrf_token %} -->
-		<input type="submit" class="btn" value="Click" name="mybtn">
+	<form action="#" method="post">
+		{% csrf_token %}		
+		Quantidade (g): <input type="number" class="quantity" size="20" name="quantity">
+		<input type="submit" class="btn fonte-texto" value="Adicionar ao prato" name="mybtn">
 	</form>
-	<p>Carrinho: {{cart}} </p>
+
+	<p>{{meal}} </p>
 {% endblock %}

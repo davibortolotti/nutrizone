@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
+from decimal import *
 
 import requests
 
@@ -8,8 +9,10 @@ from .forms import SubmitFood
 from .serializer import USDASerializer
 from .models import Food, Nutrients
 
-
 # Create your views here.
+
+def index(request):
+	return render(request, 'index.html')
 
 def save_food(request):
 
@@ -38,29 +41,105 @@ def save_food(request):
 	else:
 		form = SubmitFood()
 
-	return render(request, 'index.html', {'form': form})
+	return render(request, 'save_food.html', {'form': form})
+
+
+###
+
+
+def foodlist(request):
+
+	foodlist = Food.objects.all()
+
+	return render(request, 'foodlist.html', {'foodlist': foodlist})
 
 def nutrition(request, foodname=None):
 
+
+	context = {}
+
 	food = Food.objects.filter(name=foodname)[0] # TEMPORARIO
 	nutrients = Nutrients.objects.filter(food__name=foodname)
+
 	energy = nutrients.get(name='Energy')
-	sugars = nutrients.get(name='Sugars, total')
 	fat = nutrients.get(name='Total lipid (fat)')
 
-	context = {
+	if nutrients.filter(name='Sugars, total').exists():
+		sugars = nutrients.get(name='Sugars, total')
+		context['sugars'] = sugars
+
+	context.update({
 	'food': food, 
 	'energy': energy,
-	'sugars': sugars,
-	'fat': fat
-	}
+	'fat':fat,
+	})
 
 
-	if(request.GET.get('mybtn')):
-		request.session[food.name] = 100
-		cart = 'voce adicionou ' + str(request.session.get(food.name))
-		context['cart'] = cart
+
+	if(request.POST.get('mybtn')):
+
+		if 'meal' not in request.session.keys(): # checks if there's already a meal in existance
+			request.session['meal'] = {} # creates a new meal
+		meal = request.session.get('meal', {})
+		quantity = float(request.POST.get('quantity'))
+		meal[food.name] = quantity
+		meal2 = 'Você adicionou ' + str(int(meal[food.name])) + 'g de ' + food.name.lower()+ ' ao seu prato.'
+		context['meal'] = meal2
+		request.session['meal'] = meal	
+
 	
 	return render(request, 'nutrition.html', context)
+
+
+###
+
+
+def meal(request):
+	if 'meal' in request.session.keys():
+		
+		if(request.POST.get('clearbutton')):
+			request.session['meal'] = {}
+			return render(request, 'meal.html')
+
+		meal = request.session['meal']	
+		meal_phrase = []
+
+		totalenergy, totalsugars, totalfat = 0, 0, 0
+
+		for foodname in meal:
+
+			quantity = meal[foodname]
+
+			food = Food.objects.filter(name=foodname)[0] # TEMPORARIO
+			nutrients = Nutrients.objects.filter(food__name=foodname)
+			energy = nutrients.get(name='Energy').value
+			fat = nutrients.get(name='Total lipid (fat)').value
+
+			if nutrients.filter(name='Sugars, total').exists():
+				sugars = nutrients.get(name='Sugars, total').value
+			else: sugars = 0
+
+
+			meal_phrase.append(foodname + ' (' + str(int(quantity)) + 'g)')
+			getcontext().prec = 3
+
+			totalenergy += Decimal(energy)*Decimal(quantity)/100
+			totalsugars += Decimal(sugars)*Decimal(quantity)/100
+			totalfat += Decimal(fat)*Decimal(quantity)/100
+
+
+
+		context = {
+		'meal': meal_phrase,
+		'totalenergy': totalenergy,
+		'totalfat': totalfat,
+		'totalsugars': totalsugars,
+		}
+
+		return render(request, 'meal.html', context)
+	
+	else:
+
+		return render(request, 'meal.html')
 
 

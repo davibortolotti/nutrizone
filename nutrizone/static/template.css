@@ -1,12 +1,12 @@
 .fundo-branco {
-	background-color: #FFF;
+	background-color: #FFF5E6;
 }
 
-.fundo-verde-escuro {
-	background-color: #EB9532;
+.fundo-laranja-claro {
+	background-color: #FDE3A7;
 }
 
-.fundo-verde-claro {
+.fundo-laranja {
 	background-color: #F4B350;
 }
 
@@ -18,23 +18,31 @@ text-decoration: none;
 body {
 	margin: 0;
 }
+
 .upper-menu {
 	text-align: right;
 	height: 50px;
 }
 
 .navigation {
-	height: 100px;
+	height:50px;
 }
 .navigation ul {
 	text-align: right;
-	padding: 33px 200px 33px 40px;
+	padding: 10px 200px 10px 40px;
 	margin: 0;
 }
 
 .fonte-nav{
-	font-size: 30px;
+	font-size: 24px;
 	color: #FFF;
+	font-family: 'Fira Sans', sans-serif;
+}
+
+.fonte-texto{
+	font-size: 16px;
+	color: #000;
+	font-family: 'Fira Sans', sans-serif;
 }
 .navigation li {
 	display: inline;
@@ -58,4 +66,17 @@ body {
 
 .description {
 	padding: 20px;
+}
+
+.quantity {
+	width: 60px;
+}
+
+#meuprato {
+    width: 240px;
+    margin: auto;
+}
+
+#meuprato li{
+	padding: 2px 0
 }

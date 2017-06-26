@@ -10,7 +10,7 @@ class Food(models.Model):
 
 class Nutrients(models.Model):
 	name = models.CharField(max_length=200)
-	value = models.CharField(max_length=200)
+	value = models.FloatField()
 	unit = models.CharField(max_length=10)
 	food = models.ForeignKey(Food, related_name='food')
 	def __str__(self):

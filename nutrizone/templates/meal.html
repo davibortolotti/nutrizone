@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div id="meuprato">
+		{%if meal%}
+		<p>No seu prato há: 
+		<ul>
+			{% for item in meal %}
+			<li>{{item}}</li>
+			{% endfor %}
+		</ul>
+
+		<p>Total de calorias: {{totalenergy}}kcal<p>
+		<p>Total de gordura: {{totalfat}}g<p>
+		<p>Total de açúcares: {{totalsugars}}g <p>
+
+		<form action="#" method="post">
+			{% csrf_token %}
+			<input type="submit" class="btn fonte-texto" value="Limpar prato" name="clearbutton">
+		</form>
+		{% else %}Seu prato está vazio.
+		{% endif %}
+	</div>
+
+{% endblock %}

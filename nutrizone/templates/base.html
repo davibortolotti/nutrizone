@@ -6,29 +6,29 @@
 	<meta charset="utf-8">
 	<title>NutriZone, sua zona de nutrição</title>
 	<link rel="stylesheet" href="{% static 'template.css' %}" type="text/css" charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 </head>
 
-<body class="fundo-verde-claro">
+<body class="fundo-laranja-claro">
 	
 	<header >
 		<div>
 			<div class="upper-menu fundo-branco">
 				Sua conta
 			</div>
-			<nav class="navigation fundo-verde-escuro fonte-nav">
+			<nav class="navigation fundo-laranja fonte-nav">
 				<ul>
-					<li><a href="#">Sobre</a></li>
-					<li><a href="#">Alimentos</a></li>
-					<li><a href="#">Seu prato</a></li>
-					<li><a href="#">Buscar</a></li>
+					<li><a href="{% url 'index' %}">SOBRE</a></li>
+					<li><a href="{% url 'foodlist' %}">ALIMENTOS</a></li>
+					<li><a href="{% url 'meal' %}">MEU PRATO</a></li>
+					<li><a href="#">BUSCAR</a></li>
 				</ul>	
 			</nav>
 		</div>
 	</header>
 	<section id="content" class="fundo-branco">
 		<div id="alimento">
-			<img src="{% static 'imgs/banana.jpg' %}" id='imagem'>
-			<div class="description">
+			<div class="description fonte-texto">
 				{% block content %} {% endblock %}
 			</div>
 		</div>

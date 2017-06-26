@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-	<form action="/nutrizone/" method="POST">
-		{% csrf_token %}
-		{{ form }}
-		<input type="submit" value="Save"/>
-	</form>
+	<h1>Bem-vindo ao Nutrizone.</h1>
+	Para começar, adicione alimentos no seu prato.
 
 {% endblock %}
