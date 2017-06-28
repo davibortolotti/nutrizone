@@ -2,11 +2,11 @@
 
 {% block content %}
 	<div id="meuprato">
-		{%if meal%}
+		{%if meal_phrase%}
 		<p>No seu prato há: 
 		<ul>
-			{% for item in meal %}
-			<li>{{item}}</li>
+			{% for food, phrase in meal_phrase.items %}
+			<li>{{food}}{{phrase}} <form style='display:inline-block' action="#" method="post">{% csrf_token %} <button type="submit" class="btn fonte-texto" value='{{food}}' name="remove">Remover</button></form></li> 
 			{% endfor %}
 		</ul>
 

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	Adicionar comida:<br/>
+	<p>
+	<form action="/nutrizone/save_food" method="POST">
+			{% csrf_token %}
+			{{ form }}
+		<input type="submit" value="Save"/>
+	</form>
+	</p>
+
+{% endblock %}

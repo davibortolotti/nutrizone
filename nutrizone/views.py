@@ -37,7 +37,7 @@ def save_food(request):
 			# defining variables to parse food information
 			food = Food.objects.all()[0]
 
-			return render(request, 'foods.html', {'food': food})
+			return render(request, 'save_food.html', {'food': food})
 	else:
 		form = SubmitFood()
 
@@ -97,12 +97,20 @@ def nutrition(request, foodname=None):
 def meal(request):
 	if 'meal' in request.session.keys():
 		
+
 		if(request.POST.get('clearbutton')):
 			request.session['meal'] = {}
 			return render(request, 'meal.html')
 
+
+
+
 		meal = request.session['meal']	
-		meal_phrase = []
+		meal_phrase = {}
+
+		if(request.POST.get('remove')):
+			meal.pop(request.POST.get('remove'), None)
+			request.session['meal']	= meal
 
 		totalenergy, totalsugars, totalfat = 0, 0, 0
 
@@ -119,9 +127,12 @@ def meal(request):
 				sugars = nutrients.get(name='Sugars, total').value
 			else: sugars = 0
 
-
-			meal_phrase.append(foodname + ' (' + str(int(quantity)) + 'g)')
 			getcontext().prec = 3
+
+			phrase = ' (' + str(Decimal(quantity)) + 'g)'
+			meal_phrase[foodname] = phrase
+
+            	
 
 			totalenergy += Decimal(energy)*Decimal(quantity)/100
 			totalsugars += Decimal(sugars)*Decimal(quantity)/100
@@ -130,7 +141,7 @@ def meal(request):
 
 
 		context = {
-		'meal': meal_phrase,
+		'meal_phrase': meal_phrase,
 		'totalenergy': totalenergy,
 		'totalfat': totalfat,
 		'totalsugars': totalsugars,

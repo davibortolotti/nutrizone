@@ -5,7 +5,7 @@
 	<p>Nome: {{ food.name }}</p>
 	<p>Cada 100g de {{ food.name|lower }} contém:</p>
 	<p>Calorias: {{energy.value}}{{energy.unit}}</p> 
-	{% if sugars %} <p>Açucares: {{sugars.value}}{{sugars.unit}} </p>{% endif %}
+	{% if sugars %} <p>Açúcares: {{sugars.value}}{{sugars.unit}} </p>{% endif %}
 	<p>Gordura: {{fat.value}}{{fat.unit}}</p>
 	<form action="#" method="post">
 		{% csrf_token %}		
