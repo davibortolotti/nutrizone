@@ -82,12 +82,17 @@ def nutrition(request, foodname=None):
 			request.session['meal'] = {} # creates a new meal
 		meal = request.session.get('meal', {})
 		quantity = float(request.POST.get('quantity'))
-		meal[food.name] = quantity
-		meal2 = 'Você adicionou ' + str(int(meal[food.name])) + 'g de ' + food.name.lower()+ ' ao seu prato.'
-		context['meal'] = meal2
-		request.session['meal'] = meal	
+		
+		if foodname in meal.keys():
+			meal[foodname] += quantity
+		else:
+			meal[foodname] = quantity
 
-	
+		meal_phrase = 'Você adicionou ' + str(int(quantity)) + 'g de ' + foodname.lower() + ' ao seu prato.'
+
+		context['meal_phrase'] = meal_phrase
+		request.session['meal'] = meal
+
 	return render(request, 'nutrition.html', context)
 
 
