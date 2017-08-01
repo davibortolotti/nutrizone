@@ -1,1 +1,1 @@
-web: gunicorn nutrizone.wsgi
+web: gunicorn website.wsgi.application
