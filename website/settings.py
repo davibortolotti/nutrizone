@@ -26,7 +26,7 @@ SECRET_KEY = '-(3dqkz845@&zs%7@8)*k%^vdsee_l56%g4@=mzp6-4&t!3x3$'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'nutrizone.herokuapp.com',
+    '*',
 ]
 
 
@@ -126,7 +126,7 @@ USE_TZ = True
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'nutrizone/static'),
+    os.path.join(BASE_DIR, '/nutrizone/static'),
 )
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
