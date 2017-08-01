@@ -76,7 +76,8 @@ def nutrition(request, foodname=None):
 
 
 
-	if(request.POST.get('mybtn')):
+	if request.method == "POST":
+		quantity = request.POST.get('quantity')
 
 		if 'meal' not in request.session.keys(): # checks if there's already a meal in existance
 			request.session['meal'] = {} # creates a new meal
@@ -87,10 +88,6 @@ def nutrition(request, foodname=None):
 			meal[foodname] += quantity
 		else:
 			meal[foodname] = quantity
-
-		meal_phrase = 'Você adicionou ' + str(int(quantity)) + 'g de ' + foodname.lower() + ' ao seu prato.'
-
-		context['meal_phrase'] = meal_phrase
 		request.session['meal'] = meal
 
 	return render(request, 'nutrition.html', context)
