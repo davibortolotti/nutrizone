@@ -9,9 +9,10 @@
 	<p>Gordura: {{fat.value}}{{fat.unit}}</p>
 	<form action="#" method="post">
 		{% csrf_token %}		
-		Quantidade (g): <input type="number" class="quantity" size="20" name="quantity">
-		<input type="submit" class="btn fonte-texto" value="Adicionar ao prato" name="mybtn">
+		Quantidade (g): <input type="number" class="quantity" size="20" name="quantity" required></input></br>
+		<button type="submit" class="button menu-font add-to-plate" value="Adicionar ao prato" name="mybtn">Adicionar ao prato</button>
 	</form>
+
 
 	<p>{{meal_phrase}} </p>
 {% endblock %}

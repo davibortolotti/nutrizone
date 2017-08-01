@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h3>Escolha o alimento para ver o valor nutricional:</h3>
-	{% for food in foodlist %}
-		<p><a href="./nutrition/{{food.name}}" style='color: black'>{{food.name}}</a></p>
-	{% endfor %}
-
+    <div class="foodlist">
+    	<h3>Escolha o alimento para ver o valor nutricional:</h3>
+        <ul class="foods">
+    	{% for food in foodlist %}
+    	   <li class="food"><a href="./nutrition/{{food.name}}">{{food.name}}</a></li>
+    	{% endfor %}
+        </div>
+    </div>
 {% endblock %}

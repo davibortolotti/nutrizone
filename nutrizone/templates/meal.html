@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+	<div class="subtitle">
+		<h2>SEU PRATO</h2>
+	</div>
+
 	<div id="meuprato">
 		{%if meal_phrase%}
 		<p>No seu prato há: 
@@ -10,15 +15,16 @@
 			{% endfor %}
 		</ul>
 
-		<p>Total de calorias: {{totalenergy}}kcal<p>
-		<p>Total de gordura: {{totalfat}}g<p>
-		<p>Total de açúcares: {{totalsugars}}g <p>
+		<p>Total de calorias: {{totalenergy}}kcal</p>
+		<p>Total de gordura: {{totalfat}}g</p>
+		<p>Total de açúcares: {{totalsugars}}g </p>
 
 		<form action="#" method="post">
 			{% csrf_token %}
 			<input type="submit" class="btn fonte-texto" value="Limpar prato" name="clearbutton">
 		</form>
-		{% else %}Seu prato está vazio.
+		{% else %}
+		<p class="text-font">Seu prato está vazio.</p>
 		{% endif %}
 	</div>
 
