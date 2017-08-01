@@ -11,17 +11,29 @@
 }
 
 a {
-color: #FFF;
-text-decoration: none;
+	text-decoration: none;
 }
 
 body {
 	margin: 0;
 }
 
+
 .upper-menu {
 	text-align: right;
 	height: 50px;
+}
+
+.menu-button{
+	border-style: solid;
+	position: fixed;
+	z-index: 3;
+	top: 20px;
+	right: 30px;
+	transition: .3s all ease-in-out;
+	border-color: rgba(255,255,255,.7);
+	color: rgba(255,255,255,.7);
+	background-color: #252525;
 }
 
 .navigation {
@@ -79,4 +91,78 @@ body {
 
 #meuprato li{
 	padding: 2px 0
+}
+
+@media only screen and (max-width: 480px) {
+
+	#content {
+		width: 100%;
+	}
+	.description {
+		width: 300px;
+		margin: 30px auto;
+		padding: 0;
+	}
+	.fonte-texto{
+		font-size: 14px;
+		color: #000;
+		font-family: 'Fira Sans', sans-serif;
+	}
+
+	#menu {
+		display: none;
+		top:260px;
+		width: 100%;
+		height: 200px;
+		transition: none;
+		position: initial;
+	}
+
+	#menu ul {
+		list-style: none;
+	}
+
+	.menu-font {
+		font-size: 20px;
+		color: #000;
+		font-family: 'Fira Sans', sans-serif;
+		font-weight: bold;
+	}
+
+	.menu-font a {
+		color: inherit;
+	}
+
+	.menu-button{
+		position: absolute;
+	}
+
+	.menu-active{
+		left: 0!important;
+	}
+
+	.menu-expanded{
+		display: block!important;
+		width: 100%;
+		position: relative;
+	}
+
+
+	.button-menu-open {
+		right: 30;
+		display: absolute;
+	}
+
+	#menu .nav {
+		width: 80%;
+	}
+
+	#menu .nav ul{
+		width: 100%;
+	}
+
+	.black-line {
+		border-color: black;
+		border-width: 1px;
+	}
 }
