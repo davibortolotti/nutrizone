@@ -3,4 +3,3 @@ gunicorn
 django
 djangorestframework
 requests
-decimal
