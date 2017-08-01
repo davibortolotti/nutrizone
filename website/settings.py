@@ -25,7 +25,9 @@ SECRET_KEY = '-(3dqkz845@&zs%7@8)*k%^vdsee_l56%g4@=mzp6-4&t!3x3$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'nutrizone.herokuapp.com',
+]
 
 
 # Application definition
