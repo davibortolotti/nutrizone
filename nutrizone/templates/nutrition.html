@@ -9,7 +9,7 @@
 		<p><span class="bold">Gordura:</span> {{fat.value}}{{fat.unit}}</p>
 		<form id="quantity-form" method="POST">
 			{% csrf_token %}		
-			Quantidade (g): <input type="number" class="quantity" size="20" name="quantity" required oninvalid="this.setCustomValidity('Favor adicionar ao menos 1g de comida')" oninput="setCustomValidity('')""></input></br>
+			Quantidade (g): <input type="number" class="quantity" size="20" name="quantity" required oninvalid="this.setCustomValidity('Preencha a quantidade.')" oninput="setCustomValidity('')""></input></br>
 			<button type="submit" class="button menu-font add-to-plate" value="Adicionar ao prato" name="mybtn">Adicionar ao prato</button>
 		</form>
 	</div>
