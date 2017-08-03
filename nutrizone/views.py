@@ -67,8 +67,6 @@ def rename_food(request):
 	if (request.POST.get('rename')):
 
 		rename = RenameFood(request.POST)
-
-		import pdb; pdb.set_trace()
 		if rename.is_valid():
 			thisfood.brname = rename.cleaned_data['rename']
 			thisfood.altmeasurename = rename.cleaned_data['renmeasure']
