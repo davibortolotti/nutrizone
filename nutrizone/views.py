@@ -1,13 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.conf import settings
 from decimal import *
 
 import requests
 
 from . import serializer
-from .forms import SubmitFood
+from .forms import SubmitFood, RenameFood
 from .serializer import USDASerializer
-from .models import Food, Nutrients
+from .models import Food, Nutrient, Measure
 
 # Create your views here.
 
@@ -21,30 +21,83 @@ def save_food(request):
 		if form.is_valid():
 
 			# serializing data
-			ndbno = form.cleaned_data['food']
-			r = requests.get('https://api.nal.usda.gov/ndb/reports/?ndbno=' + ndbno + '&type=b&format=json&api_key=' + settings.USDA_KEY)
-			json = r.json()
-			serializer = USDASerializer(data=json)
-			#valid = serializer.is_valid() # DEBUG
+			ndbno = form.cleaned_data['food'];
+			r = requests.get('https://api.nal.usda.gov/ndb/reports/?ndbno=' + ndbno + '&type=b&format=json&api_key=' + settings.USDA_KEY);
+			json = r.json();
+			serializer = USDASerializer(data=json);
 
 			# checks to see if food already exists in database
+			
 			try:
-				Food.objects.filter(ndbno=ndbno)[0]
-			except IndexError:
+				Food.objects.filter(ndbno=ndbno)[0];
+				context = {
+					"message" : "Alimento já presente no banco de dados",
+				}
+				return render(request, 'save_food.html', context)
+			
+			except IndexError: # if not in database
+
 				if serializer.is_valid(): 
-					nutrition = serializer.save()	
-
+					serializer.save(); #saves to database
+					request.session['ndbno'] = ndbno
+					return rename_food(request)
+			
 			# defining variables to parse food information
-			food = Food.objects.all()[0]
+		
 
-			return render(request, 'save_food.html', {'food': food})
+				else:
+					context = {
+						"message" : "error!",
+					}
+					return render(request, 'save_food.html', context)
+
 	else:
 		form = SubmitFood()
 
 	return render(request, 'save_food.html', {'form': form})
 
 
+def rename_food(request):
+	ndbno = request.session.get('ndbno')
+	thisfood = Food.objects.filter(ndbno=ndbno)[0]
+	food_oldname = thisfood.name
+	nutrient = Nutrient.objects.filter(food__name=food_oldname)[0]
+	thisfoodmeasures = Measure.objects.filter(nutrient=nutrient)
+
+	if (request.POST.get('rename')):
+
+		rename = RenameFood(request.POST)
+
+		import pdb; pdb.set_trace()
+		if rename.is_valid():
+			thisfood.brname = rename.cleaned_data['rename']
+			thisfood.altmeasurename = rename.cleaned_data['renmeasure']
+			thisfood.altmeasuregram = request.POST.get('measurevalue')
+			thisfood.save();
+			Measure.objects.filter(nutrient__food__name=food_oldname).delete()
+			context = {
+				'done' : 'Alimento adicionado com sucesso',
+			}
+		return render(request, 'rename_food.html', context)
+
+	else:
+		rename = RenameFood()
+		context = {
+			'rename': rename,
+			'oldname': food_oldname,
+			'thisfoodmeasures': thisfoodmeasures,
+		}
+	return render(request, 'rename_food.html', context)
+
+
 ###
+
+
+
+
+
+
+
 
 
 def foodlist(request):
@@ -58,8 +111,8 @@ def nutrition(request, foodname=None):
 
 	context = {}
 
-	food = Food.objects.filter(name=foodname)[0] # TEMPORARIO
-	nutrients = Nutrients.objects.filter(food__name=foodname)
+	food = Food.objects.filter(brname=foodname)[0] # TEMPORARIO
+	nutrients = Nutrient.objects.filter(food__brname=foodname)
 
 	energy = nutrients.get(name='Energy')
 	fat = nutrients.get(name='Total lipid (fat)')
@@ -120,8 +173,8 @@ def meal(request):
 
 			quantity = meal[foodname]
 
-			food = Food.objects.filter(name=foodname)[0] # TEMPORARIO
-			nutrients = Nutrients.objects.filter(food__name=foodname)
+			food = Food.objects.filter(brname=foodname)[0] # TEMPORARIO
+			nutrients = Nutrient.objects.filter(food__brname=foodname)
 			energy = nutrients.get(name='Energy').value
 			fat = nutrients.get(name='Total lipid (fat)').value
 

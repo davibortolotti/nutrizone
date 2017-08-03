@@ -7,9 +7,11 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
-	url(r'^save_food$', views.save_food),
+	url(r'^save_food$', views.save_food, name="save_food"),
+    url(r'^rename_food$', views.rename_food, name='rename_food'),
 	url(r'^nutrition/(?P<foodname>.*)/$', views.nutrition),
 	url(r'^meal$', views.meal, name='meal'),
 	url(r'^alimentos$', views.foodlist, name='foodlist'),
+
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
