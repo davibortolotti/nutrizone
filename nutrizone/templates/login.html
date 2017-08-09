@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Entre</h2>
+  <form method="post">
+    {% csrf_token %}
+    <p>Nome do usuário: {{form.username}}</p>
+    <p>Senha: {{form.password}}</p>
+
+    {%if form.errors %}
+    <p> O usuário e senha não conferem. Favor digitar corretamente. </p>
+    {% endif %}
+<!--     {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+      </p>
+    {% endfor %} -->
+    <button type="submit">Entrar</button>
+  </form>
+{% endblock %}

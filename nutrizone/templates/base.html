@@ -15,15 +15,23 @@
 	
 	<header >
 		<div class="mobile-hide">
+			{% if authenticated %}
 			<div class="upper-menu fundo-branco">
-				Sua conta
+				Bem-vindo {{firstname}}
 			</div>
+			{% endif %}
 			<nav class="navigation fundo-laranja fonte-nav">
 				<ul>
 					<li><a href="{% url 'index' %}">SOBRE</a></li>
 					<li><a href="{% url 'foodlist' %}">ALIMENTOS</a></li>
 					<li><a href="{% url 'meal' %}">MEU PRATO</a></li>
-					<li><a href="#">BUSCAR</a></li>
+					{% if authenticated %}
+					<li><a href="#">MINHA CONTA</a></li>
+					<li><a href="{% url 'logmeout' %}">SAIR</a></li>
+					{% else %}
+					<li><a href="{% url 'signup' %}">CADASTRE-SE</a></li>
+					<li><a href="{% url 'logmein' %}">ENTRAR</a></li>
+					{% endif %}
 				</ul>	
 			</nav>
 		</div>
@@ -44,7 +52,7 @@
 					<hr class="baige-line">
 					<li><a href="{% url 'meal' %}">MEU PRATO</a></li>
 					<hr class="baige-line">
-					<li><a href="#">BUSCAR</a></li>
+					<li><a href="{% url 'signup' %}">CADASTRE-SE</a></li>
 
 				</ul>
 			</nav>

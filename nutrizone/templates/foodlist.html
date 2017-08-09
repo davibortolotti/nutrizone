@@ -2,11 +2,41 @@
 
 {% block content %}
     <div class="foodlist">
+        {% regroup foodlist|dictsort:"index" by index as foodlist %}
     	<h3>Escolha o alimento para ver o valor nutricional:</h3>
+
+        <p> {% for index in foodlist %}<a href="#" id="{{index.grouper}}_link">{{index.grouper}} {% endfor %}</p>
+        
+
         <ul class="foods">
-    	{% for food in foodlist %}
-    	   <li class="food"><a href="./nutrition/{{food.brname}}">{{food.brname}}</a></li>
+    	{% for index in foodlist %}
+            <li id="{{index.grouper}}"> {{index.grouper}}
+                <ul>
+                    {% for food in index.list %}
+                    <li class="food"><a href="./nutrition/{{food.brname}}">{{food.brname}}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
     	{% endfor %}
-        </div>
+        </ul>
     </div>
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+{% regroup foodlist|dictsort:"index" by index as foodlist %}
+
+{% for index in foodlist %}
+$("#{{index.grouper}}_link").click(function() {
+    $('html, body').animate({
+        scrollTop: $("#{{index.grouper}}").offset().top
+    }, 200);
+});
+{% endfor %}
+
+</script>
+
+
 {% endblock %}

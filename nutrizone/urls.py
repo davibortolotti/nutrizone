@@ -12,6 +12,9 @@ urlpatterns = [
 	url(r'^nutrition/(?P<foodname>.*)/$', views.nutrition),
 	url(r'^meal$', views.meal, name='meal'),
 	url(r'^alimentos$', views.foodlist, name='foodlist'),
+    url(r'^signup$', views.signup, name='signup'),
+    url(r'^logmeout$', views.logmeout, name='logmeout'),
+    url(r'^logmein$', views.logmein, name='logmein'),
 
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

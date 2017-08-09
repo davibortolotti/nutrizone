@@ -1,17 +1,27 @@
 from django.shortcuts import render, redirect, reverse
 from django.conf import settings
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
+
 from decimal import *
 
-import requests
-
 from . import serializer
-from .forms import SubmitFood, RenameFood
+from .forms import *
 from .serializer import USDASerializer
 from .models import Food, Nutrient, Measure
 
+
+
+import requests
 # Create your views here.
 
 def index(request):
+	authUser = request.user.is_authenticated
+	if authUser:
+		user = User.objects.get(username=request.user.username)
+		firstname = request.user.first_name
+		return render(request, 'index.html', {'authenticated':authUser, 'firstname':firstname})
 	return render(request, 'index.html')
 
 def save_food(request):
@@ -100,9 +110,10 @@ def rename_food(request):
 
 def foodlist(request):
 
-	foodlist = Food.objects.all()
-
-	return render(request, 'foodlist.html', {'foodlist': foodlist})
+	foodList = Food.objects.all()
+	for food in foodList:
+		food.__setattr__('index', food.brname[0])#first letter of headline
+	return render(request, 'foodlist.html', {'foodlist': foodList})
 
 def nutrition(request, foodname=None):
 
@@ -207,3 +218,33 @@ def meal(request):
 		return render(request, 'meal.html')
 
 
+
+
+def signup(request):
+	if request.method == 'POST':
+		form = SignUpForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=raw_password)
+			login(request, user)
+			return redirect('index')
+	else:
+	    form = SignUpForm()
+	return render(request, 'signup.html', {'form': form})
+
+
+def logmein(request):
+	if request.method == 'POST':
+		form = AuthenticationForm(data=request.POST)
+		if form.is_valid():
+			login(request, form.get_user())
+			return redirect('index')
+	else:
+	    form = AuthenticationForm()
+	return render(request, 'login.html', {'form': form})
+
+def logmeout(request):
+	logout(request)
+	return redirect('index')
