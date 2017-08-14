@@ -15,9 +15,9 @@
 	
 	<header >
 		<div class="mobile-hide">
-			{% if authenticated %}
+			{% if request.user.is_authenticated %}
 			<div class="upper-menu fundo-branco">
-				Bem-vindo {{firstname}}
+				Bem-vindo {{request.user.username}}
 			</div>
 			{% endif %}
 			<nav class="navigation fundo-laranja fonte-nav">
@@ -25,7 +25,7 @@
 					<li><a href="{% url 'index' %}">SOBRE</a></li>
 					<li><a href="{% url 'foodlist' %}">ALIMENTOS</a></li>
 					<li><a href="{% url 'meal' %}">MEU PRATO</a></li>
-					{% if authenticated %}
+					{% if request.user.is_authenticated %}
 					<li><a href="#">MINHA CONTA</a></li>
 					<li><a href="{% url 'logmeout' %}">SAIR</a></li>
 					{% else %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.conf import settings
+from django.views import View
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
@@ -9,7 +10,8 @@ from decimal import *
 from . import serializer
 from .forms import *
 from .serializer import USDASerializer
-from .models import Food, Nutrient, Measure
+from .models import Food, Nutrient, Measure, UserMeal, MealIngredient
+from .food_query import food_info
 
 
 
@@ -17,11 +19,6 @@ import requests
 # Create your views here.
 
 def index(request):
-	authUser = request.user.is_authenticated
-	if authUser:
-		user = User.objects.get(username=request.user.username)
-		firstname = request.user.first_name
-		return render(request, 'index.html', {'authenticated':authUser, 'firstname':firstname})
 	return render(request, 'index.html')
 
 def save_food(request):
@@ -98,14 +95,7 @@ def rename_food(request):
 	return render(request, 'rename_food.html', context)
 
 
-###
-
-
-
-
-
-
-
+### food lists ###
 
 
 def foodlist(request):
@@ -117,26 +107,7 @@ def foodlist(request):
 
 def nutrition(request, foodname=None):
 
-
-	context = {}
-
-	food = Food.objects.filter(brname=foodname)[0] # TEMPORARIO
-	nutrients = Nutrient.objects.filter(food__brname=foodname)
-
-	energy = nutrients.get(name='Energy')
-	fat = nutrients.get(name='Total lipid (fat)')
-
-	if nutrients.filter(name='Sugars, total').exists():
-		sugars = nutrients.get(name='Sugars, total')
-		context['sugars'] = sugars
-
-	context.update({
-	'food': food, 
-	'energy': energy,
-	'fat':fat,
-	})
-
-
+	context = food_info(foodname)[0]
 
 	if request.method == "POST":
 		quantity = request.POST.get('quantity')
@@ -155,19 +126,14 @@ def nutrition(request, foodname=None):
 	return render(request, 'nutrition.html', context)
 
 
-###
-
-
 def meal(request):
+
 	if 'meal' in request.session.keys():
 		
 
 		if(request.POST.get('clearbutton')):
 			request.session['meal'] = {}
 			return render(request, 'meal.html')
-
-
-
 
 		meal = request.session['meal']	
 		meal_phrase = {}
@@ -182,14 +148,7 @@ def meal(request):
 
 			quantity = meal[foodname]
 
-			food = Food.objects.filter(brname=foodname)[0] # TEMPORARIO
-			nutrients = Nutrient.objects.filter(food__brname=foodname)
-			energy = nutrients.get(name='Energy').value
-			fat = nutrients.get(name='Total lipid (fat)').value
-
-			if nutrients.filter(name='Sugars, total').exists():
-				sugars = nutrients.get(name='Sugars, total').value
-			else: sugars = 0
+			energy, fat, sugars = food_info(foodname)[1:4]
 
 			getcontext().prec = 3
 
@@ -198,11 +157,14 @@ def meal(request):
 
             	
 
-			totalenergy += Decimal(energy)*Decimal(quantity)/100
-			totalsugars += Decimal(sugars)*Decimal(quantity)/100
-			totalfat += Decimal(fat)*Decimal(quantity)/100
+			totalenergy += Decimal(energy.value)*Decimal(quantity)/100
+			totalsugars += Decimal(sugars.value)*Decimal(quantity)/100
+			totalfat += Decimal(fat.value)*Decimal(quantity)/100
 
-
+		if(request.POST.get('save')):
+			username = request.user.username
+			UserMeal.object.create(name="whatever", user=username)
+			return render(request, 'meal.html')
 
 		context = {
 		'meal_phrase': meal_phrase,
@@ -219,6 +181,7 @@ def meal(request):
 
 
 
+### USER MANAGING ###
 
 def signup(request):
 	if request.method == 'POST':

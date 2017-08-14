@@ -25,3 +25,13 @@ class Measure(models.Model):
 	nutrient = models.ForeignKey(Nutrient, on_delete=models.CASCADE, related_name='nutrientname')
 	def __str__(self):
 		return self.label + ' - ' + self.nutrient.name + ' - ' + self.nutrient.food.name
+
+class UserMeal(models.Model):
+	user = models.CharField(max_length=200)
+	name = models.CharField(max_length=200)
+
+
+class MealIngredient(models.Model):
+	userMeal = models.ForeignKey(UserMeal, on_delete=models.CASCADE, related_name='usermeal')
+	ingredient = models.ForeignKey(Food, on_delete=models.CASCADE)
+	quantity = models.FloatField()

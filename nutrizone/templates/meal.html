@@ -23,6 +23,11 @@
 			{% csrf_token %}
 			<input type="submit" class="btn button menu-font" value="Limpar prato" name="clearbutton">
 		</form>
+
+			{% if request.user.is_authenticated %}
+			<button type="button" class="btn button menu-font" value="save">Salvar nos meus pratos</button>
+			{% endif %}
+
 		{% else %}
 		<p class="text-font">Seu prato está vazio.</p>
 		{% endif %}
