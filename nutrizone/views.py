@@ -161,17 +161,18 @@ def meal(request):
 			totalsugars += Decimal(sugars.value)*Decimal(quantity)/100
 			totalfat += Decimal(fat.value)*Decimal(quantity)/100
 
+		context = {
+			'meal_phrase': meal_phrase,
+			'totalenergy': totalenergy,
+			'totalfat': totalfat,
+			'totalsugars': totalsugars,
+		}
+
 		if(request.POST.get('save')):
 			username = request.user.username
-			UserMeal.object.create(name="whatever", user=username)
-			return render(request, 'meal.html')
-
-		context = {
-		'meal_phrase': meal_phrase,
-		'totalenergy': totalenergy,
-		'totalfat': totalfat,
-		'totalsugars': totalsugars,
-		}
+			mealname = request.POST.get('mealname')
+			usermeal = UserMeal(name=mealname, user=username)
+			usermeal.save();
 
 		return render(request, 'meal.html', context)
 	
