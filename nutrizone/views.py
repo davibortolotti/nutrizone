@@ -188,10 +188,19 @@ def meal(request):
 		return render(request, 'meal.html')
 
 @login_required
-def mymeal(request):
+def mymeallist(request):
+	username = request.user.username
+	meals = UserMeal.objects.filter(user=username)
+	context = {
+		"meals": meals,
+	}
+	return render(request, 'mymeallist.html', context)
+
+@login_required
+def mymeal(request, mealname=None):
 
 	username = request.user.username
-	meal = UserMeal.objects.get(user=username)
+	meal = UserMeal.objects.get(user=username, name=mealname)
 	ingredients = MealIngredient.objects.filter(usermeal=meal)
 
 	context = {
@@ -219,14 +228,24 @@ def signup(request):
 
 
 def logmein(request):
+
 	if request.method == 'POST':
 		form = AuthenticationForm(data=request.POST)
 		if form.is_valid():
 			login(request, form.get_user())
 			return redirect('index')
+		errors = form.errors['__all__']
+		context = { 
+			'form': form,
+			'errors': errors,
+		}
 	else:
 	    form = AuthenticationForm()
-	return render(request, 'login.html', {'form': form})
+	    context = {
+			'form': form 
+		}
+
+	return render(request, 'login.html', context)
 
 def logmeout(request):
 	logout(request)

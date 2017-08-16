@@ -12,6 +12,8 @@ urlpatterns = [
 	url(r'^nutrition/(?P<foodname>.*)/$', views.nutrition),
 	url(r'^meal$', views.meal, name='meal'),
     url(r'^mymeal$', views.mymeal, name='mymeal'),
+    url(r'^mymeallist$', views.mymeallist, name='mymeallist'),
+    url(r'^mymeallist/(?P<mealname>.*)$', views.mymeal, name='mymeal'),
 	url(r'^alimentos$', views.foodlist, name='foodlist'),
     url(r'^signup$', views.signup, name='signup'),
     url(r'^logmeout$', views.logmeout, name='logmeout'),

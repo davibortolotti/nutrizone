@@ -24,17 +24,12 @@ class SignUpForm(UserCreationForm):
     password2 = forms.CharField(label=("Confirme a Senha"), widget=forms.PasswordInput, 
         help_text=("Coloque a mesma senha acima, para confirmação."))
 
-    error_messages = {
-        'password_mismatch': ("As duas senhas não correspondem."),
-
-    }
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
 
-# class LogInForm(AuthenticationForm):
+class LogInForm(AuthenticationForm):
 
-#     # username = forms.CharField(max_length=30, label="Nome de usuário")
-    # password = forms.CharField(max_length=30, label=("Senha"), widget=forms.PasswordInput)
+    username = forms.CharField(max_length=30, label="Nome de usuário")
+    password = forms.CharField(max_length=30, label=("Senha"), widget=forms.PasswordInput)

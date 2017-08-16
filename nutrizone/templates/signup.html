@@ -12,13 +12,7 @@
           <small style="color: grey">{{ field.help_text }}</small>
         {% endif %}
         {% for error in field.errors %}
-          {% if field.label == "Nome de usuário" %}
-          <p style="color: red">Este nome de usuário já foi cadastrado</p>
-          {% elif field.label == "Nome de usuário" %}
-          <p style="color: red">Este nome de usuário já foi cadastrado</p>
-          {% else %}
           <p style="color: red">{{ error }}</p>
-          {% endif %}
         {% endfor %}
       </p>
     {% endfor %}
