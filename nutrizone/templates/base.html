@@ -26,7 +26,7 @@
 					<li><a href="{% url 'foodlist' %}">ALIMENTOS</a></li>
 					<li><a href="{% url 'meal' %}">MEU PRATO</a></li>
 					{% if request.user.is_authenticated %}
-					<li><a href="{% url 'mymeallist' %}">MINHA CONTA</a></li>
+					<li><a href="{% url 'account' %}">MINHA CONTA</a></li>
 					<li><a href="{% url 'logmeout' %}">SAIR</a></li>
 					{% else %}
 					<li><a href="{% url 'signup' %}">CADASTRE-SE</a></li>

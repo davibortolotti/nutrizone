@@ -17,7 +17,7 @@ from .food_query import food_info
 
 
 import requests
-# Create your views here.
+
 
 def index(request):
 	return render(request, 'index.html')
@@ -187,6 +187,10 @@ def meal(request):
 
 		return render(request, 'meal.html')
 
+
+#### SAVED MEALS ###
+
+
 @login_required
 def mymeallist(request):
 	username = request.user.username
@@ -196,23 +200,67 @@ def mymeallist(request):
 	}
 	return render(request, 'mymeallist.html', context)
 
+
+
 @login_required
 def mymeal(request, mealname=None):
 
 	username = request.user.username
-	meal = UserMeal.objects.get(user=username, name=mealname)
-	ingredients = MealIngredient.objects.filter(usermeal=meal)
+	usermeal = UserMeal.objects.get(user=username, name=mealname)
+	mealingredients = MealIngredient.objects.filter(usermeal=usermeal)
+	meal = {}
+
+	for ingredient in mealingredients:
+		meal[ingredient.ingredient.brname] = ingredient.quantity
+	
+	meal_phrase = {}
+
+	totalenergy, totalsugars, totalfat = 0, 0, 0
+
+	for ingredient in meal:
+
+		quantity = meal[ingredient]
+		energy, fat, sugars = food_info(ingredient)[1:4]
+
+		getcontext().prec = 3
+
+		phrase = ' (' + str(Decimal(quantity)) + 'g)'
+		meal_phrase[ingredient] = phrase
+
+        	
+
+		totalenergy += Decimal(energy.value)*Decimal(quantity)/100
+		totalsugars += Decimal(sugars.value)*Decimal(quantity)/100
+		totalfat += Decimal(fat.value)*Decimal(quantity)/100
 
 	context = {
-	"meal": meal,
-	"ingredients": ingredients,
+		'usermeal': usermeal,
+		'meal_phrase': meal_phrase,
+		'totalenergy': totalenergy,
+		'totalfat': totalfat,
+		'totalsugars': totalsugars,
 	}
 
+	if(request.POST.get('remove')):
+
+		if not MealIngredient.objects.filter(usermeal=usermeal):
+			UserMeal.objects.get(user=username, name=mealname).delete();
+			return redirect('mymeallist')
+		MealIngredient.objects.get(usermeal=usermeal, ingredient__brname=request.POST.get('remove')).delete()
+		
+		return redirect('mymeal')
+
 	return render(request, 'mymeal.html', context)
+
+
+
+
 
 ### USER MANAGING ###
 
 def signup(request):
+	if request.user.is_authenticated:
+		return redirect('index')
 	if request.method == 'POST':
 		form = SignUpForm(request.POST)
 		if form.is_valid():
@@ -222,13 +270,16 @@ def signup(request):
 			user = authenticate(username=username, password=raw_password)
 			login(request, user)
 			return redirect('index')
+
 	else:
 	    form = SignUpForm()
+
 	return render(request, 'signup.html', {'form': form})
 
 
 def logmein(request):
-
+	if request.user.is_authenticated:
+		return redirect('index')
 	if request.method == 'POST':
 		form = AuthenticationForm(data=request.POST)
 		if form.is_valid():
@@ -239,6 +290,7 @@ def logmein(request):
 			'form': form,
 			'errors': errors,
 		}
+
 	else:
 	    form = AuthenticationForm()
 	    context = {
@@ -247,6 +299,13 @@ def logmein(request):
 
 	return render(request, 'login.html', context)
 
+@login_required
 def logmeout(request):
 	logout(request)
 	return redirect('index')
+
+@login_required
+def accountinfo(request):
+	username = request.user.username
+	user = User.objects.get(username=username)
+	return render(request, 'account.html', {'user' : user})

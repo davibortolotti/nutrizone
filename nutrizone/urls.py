@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^signup$', views.signup, name='signup'),
     url(r'^logmeout$', views.logmeout, name='logmeout'),
     url(r'^logmein$', views.logmein, name='logmein'),
+    url(r'^account$', views.accountinfo, name='account'),
 
 
 
