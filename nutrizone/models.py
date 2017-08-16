@@ -29,9 +29,12 @@ class Measure(models.Model):
 class UserMeal(models.Model):
 	user = models.CharField(max_length=200)
 	name = models.CharField(max_length=200)
-
+	def __str__(self):
+		return self.user + ' - ' + self.name
 
 class MealIngredient(models.Model):
-	userMeal = models.ForeignKey(UserMeal, on_delete=models.CASCADE, related_name='usermeal')
+	usermeal = models.ForeignKey(UserMeal, on_delete=models.CASCADE, related_name='usermeal')
 	ingredient = models.ForeignKey(Food, on_delete=models.CASCADE)
 	quantity = models.FloatField()
+	def __str__(self):
+		return self.usermeal.user + ' - ' + self.usermeal.name + ' - ' + self.ingredient.brname

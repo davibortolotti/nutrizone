@@ -4,6 +4,7 @@ from django.views import View
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 from decimal import *
 
@@ -172,7 +173,13 @@ def meal(request):
 			username = request.user.username
 			mealname = request.POST.get('mealname')
 			usermeal = UserMeal(name=mealname, user=username)
-			usermeal.save();
+			usermeal.save()
+
+			for foodname in meal:
+				quantity = meal[foodname]
+				food = Food.objects.get(brname=foodname)
+				ingredient = MealIngredient(usermeal=usermeal, quantity=quantity, ingredient=food)
+				ingredient.save()
 
 		return render(request, 'meal.html', context)
 	
@@ -180,7 +187,19 @@ def meal(request):
 
 		return render(request, 'meal.html')
 
+@login_required
+def mymeal(request):
 
+	username = request.user.username
+	meal = UserMeal.objects.get(user=username)
+	ingredients = MealIngredient.objects.filter(usermeal=meal)
+
+	context = {
+	"meal": meal,
+	"ingredients": ingredients,
+	}
+
+	return render(request, 'mymeal.html', context)
 
 ### USER MANAGING ###
 
