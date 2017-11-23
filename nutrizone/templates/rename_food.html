@@ -3,25 +3,25 @@
 {% block content %}
 
 
-    {% if not done %}
-    <!-- se já ainda não foi adicionado -->
-        Qual o nome da comida?<br/>
-        <p> Nome antigo: {{oldname}} </p>
-        <form action=" {% url 'rename_food' %}" method="POST">
-                {% csrf_token %}
-                {{ rename.rename }}
-            <p> Escolha a medida: </p>
-            {% for foodmeasure in thisfoodmeasures %}
-                 <p><input type="radio" name="measurevalue" value="{{foodmeasure.eqv}}">{{foodmeasure.label}}</p>
-            {% endfor %}
-            {{ rename.renmeasure }}
-            <button type="submit" name='Rename'/>Renomear</button>
-        </form>
-        </p>
+{% if not done %}
+<!-- se já ainda não foi adicionado -->
+    Qual o nome da comida?<br/>
+    <p> Nome antigo: {{oldname}} </p>
+    <form action=" {% url 'rename_food' %}" method="POST">
+            {% csrf_token %}
+            {{ rename.rename }}
+        <p> Escolha a medida: </p>
+        {% for foodmeasure in thisfoodmeasures %}
+             <p><input type="radio" name="measurevalue" value="{{foodmeasure.eqv}}">{{foodmeasure.label}}</p>
+        {% endfor %}
+        {{ rename.renmeasure }}
+        <button type="submit" name='Rename'/>Renomear</button>
+    </form>
+    </p>
 
-    {% else %} 
-    <!-- se já for adicionado -->
-    <p>{{ done }}</p>
-    {% endif %}
+{% else %} 
+<!-- se já for adicionado -->
+<p>{{ done }}</p>
+{% endif %}
 
 {% endblock %}

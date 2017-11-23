@@ -1,25 +1,38 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'foodlist.css' %}" type="text/css" charset="utf-8">
+{% endblock css %}
+
 {% block content %}
-    <div class="foodlist">
-        {% regroup foodlist|dictsort:"index" by index as foodlist %}
-    	<h3>Escolha o alimento para ver o valor nutricional:</h3>
+<div class="foodlist">
+    
+    {% regroup foodlist|dictsort:"index" by index as foodlist %}
+	
+    <h3 class="subtitle">Escolha o alimento para ver o valor nutricional:</h3>
 
-        <p> {% for index in foodlist %}<a href="#" id="{{index.grouper}}_link">{{index.grouper}} {% endfor %}</p>
-        
+    <p class="letter-index">
+        {% for index in foodlist %}
+        <a class="letter" href="#" id="{{index.grouper}}_link">{{index.grouper}}</a>
+        <span> - </span>
+        {% endfor %}
+    </p>
+    
 
-        <ul class="foods">
-    	{% for index in foodlist %}
-            <li id="{{index.grouper}}"> {{index.grouper}}
-                <ul>
-                    {% for food in index.list %}
-                    <li class="food"><a href="./nutrition/{{food.brname}}">{{food.brname}}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
-    	{% endfor %}
-        </ul>
-    </div>
+    <ul class="foods">
+	{% for index in foodlist %}
+        <li id="{{index.grouper}}" class="grouper"> {{index.grouper}}
+            <ul>
+                {% for food in index.list|dictsort:"brname" %}
+                <li class="food text-font"><a href="./nutrition/{{food.brname}}">{{food.brname}}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+	{% endfor %}
+    </ul>
+</div>
 {% endblock %}
 
 {% block script %}
@@ -35,6 +48,8 @@ $("#{{index.grouper}}_link").click(function() {
     }, 200);
 });
 {% endfor %}
+
+$(".letter-index :last-child").remove();
 
 </script>
 

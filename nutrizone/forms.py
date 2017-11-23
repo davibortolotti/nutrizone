@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .validators import MyPassValidator
 
 class SubmitFood(forms.Form):
-	food = forms.CharField(max_length=15)
+	food = forms.CharField(max_length=15, label="Número no DATABASE da USDA")
 
 
 class RenameFood(forms.Form):

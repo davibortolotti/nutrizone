@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
+
+{% block intro %}
+<div class="meal-img"></div>
+
+<div>
+    <h1 class="title overimg banner-font">Bem-vindo à NutriLATOR.</h1>
+</div>
+{% endblock intro %}
 {% block content %}
-	<h1 class="title">Bem-vindo ao Nutrizone.</h1>
-	<p class="simpletext">Para começar, adicione alimentos ao seu prato.</p>
+<p class="simpletext">A NutriLATOR é uma calculadora de informações nutricionais gratuita e open-source, criada com o intuito de auxiliar a qualquer um no cálculo de calorias, nutrientes e outras informações de diversos alimentos. </p>
+<p class="simpletext">A ferramenta utiliza o banco de dados do Departamento de Agricultura dos Estados Unidos, se valendo de dados confiáveis e extensos.</p>
+<p class="simpletext">Para começar, adicione alimentos ao seu prato.</p>
 
 {% endblock %}

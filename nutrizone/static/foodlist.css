@@ -1,0 +1,19 @@
+.foods {
+    padding: 20px 120px;
+}
+
+.food {
+    list-style: none;
+    padding: 5px 0;
+
+}
+
+.letter-index {
+    text-align: center;
+    font-size: 20px;
+}
+
+.letter {
+    color: orange;
+    text-decoration: underline;
+}

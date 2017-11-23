@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="subtitle">
+      <h2>Seus dados</h2>
+    </div>
+
+    <div class="text-font data">
+        <p><span class="bold">Nome:</span> {{user.first_name}}</p>
+        <p><span class="bold">Sobrenome:</span>  {{user.last_name}}</p>
+        <p><span class="bold">E-mail:</span>  {{user.email}}</p>
+    </div>
+    <div>
+        <a href="{% url 'mymeallist' %}">Pratos Salvos</a>
+    </div>
+
+{% endblock %}

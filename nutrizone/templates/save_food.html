@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	Adicionar comida:<br/>
-	<p>
-	<form action=" {% url 'save_food' %}" method="POST">
-			{% csrf_token %}
-			{{ form }}
-		<input type="submit" value="Save"/>
-	</form>
-	</p>
-    <p>{{ message }}</p>
+
+Adicionar comida:<br/>
+<p>
+<form action=" {% url 'save_food' %}" method="POST">
+		{% csrf_token %}
+		{{ form }}
+	<input type="submit" value="Save"/>
+</form>
+</p>
+<p>{{ message }}</p>
 
 {% endblock %}

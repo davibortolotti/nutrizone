@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="subtitle">
+    <h2>{{usermeal.name}}</h2>
+</div>
+
+<div id="meuprato">
+    <p>Neste prato há: 
+    <ul>
+        {% for food, phrase in meal_phrase.items %}
+        <li>{{food}}{{phrase}} <form style='display:inline-block' action="#" method="post">{% csrf_token %} <button type="submit" class="btn button menu-font" value='{{food}}' name="remove"><i class="fa fa-times"></i></button></form></li> 
+        {% endfor %}
+    </ul>
+
+    <p>Total de calorias: {{totalenergy}}kcal</p>
+    <p>Total de gordura: {{totalfat}}g</p>
+    <p>Total de açúcares: {{totalsugars}}g </p>
+
+</div>
+
+{% endblock %}

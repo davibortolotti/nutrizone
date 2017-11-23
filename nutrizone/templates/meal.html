@@ -1,38 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="subtitle">
+	<h2>SEU PRATO</h2>
+</div>
 
-	<div class="subtitle">
-		<h2>SEU PRATO</h2>
-	</div>
+<div id="meuprato">
+	{%if meal_phrase%}
+	<p>No seu prato há: </p>
+	<ul>
+		{% for food, phrase in meal_phrase.items %}
+		<li>{{food}}{{phrase}} <form style='display:inline-block' action="#" method="post">{% csrf_token %} <button type="submit" class="btn button menu-font" value='{{food}}' name="remove"><i class="fa fa-times"></i></button></form></li> 
+		{% endfor %}
+	</ul>
 
-	<div id="meuprato">
-		{%if meal_phrase%}
-		<p>No seu prato há: 
-		<ul>
-			{% for food, phrase in meal_phrase.items %}
-			<li>{{food}}{{phrase}} <form style='display:inline-block' action="#" method="post">{% csrf_token %} <button type="submit" class="btn button menu-font" value='{{food}}' name="remove"><i class="fa fa-times"></i></button></form></li> 
-			{% endfor %}
-		</ul>
+	<p>Total de calorias: {{totalenergy}}kcal</p>
+	<p>Total de gordura: {{totalfat}}g</p>
+	<p>Total de açúcares: {{totalsugars}}g </p>
 
-		<p>Total de calorias: {{totalenergy}}kcal</p>
-		<p>Total de gordura: {{totalfat}}g</p>
-		<p>Total de açúcares: {{totalsugars}}g </p>
-
-		<form action="#" method="post">
-			{% csrf_token %}
-			<input type="submit" class="btn button menu-font" value="Limpar prato" name="clearbutton">
-			{% if request.user.is_authenticated %}
-			<p>Nome do prato: <input type="text" name="mealname"></p>
-			<input type="submit" class="btn button menu-font" value="Salvar nos meus pratos" name="save">
-			{% else %}
-			<p>Faça login para poder salvar este prato.</p>
-			{% endif %}
-		</form>
-
+	<form action="#" method="post">
+		{% csrf_token %}
+		<input type="submit" class="btn button menu-font" value="Limpar prato" name="clearbutton">
+		{% if request.user.is_authenticated %}
+		<p>Nome do prato: <input type="text" name="mealname"></p>
+		<input type="submit" class="btn button menu-font" value="Salvar nos meus pratos" name="save">
 		{% else %}
-		<p class="text-font">Seu prato está vazio.</p>
+		<p>Faça login para poder salvar este prato.</p>
 		{% endif %}
-	</div>
+	</form>
 
+	{% else %}
+	<p class="text-font">Seu prato está vazio.</p>
+	{% endif %}
+</div>
 {% endblock %}

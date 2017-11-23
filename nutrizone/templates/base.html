@@ -4,9 +4,10 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>NutriZone, sua zona de nutrição</title>
+	<title>NutriLATOR, sua calculadora de nutrição</title>
 	<meta name="viewport" content = "width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static 'template.css' %}" type="text/css" charset="utf-8">
+	{% block css %}{% endblock css %}
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 	<script src="https://use.fontawesome.com/e09838e29b.js"></script>
 </head>
@@ -15,20 +16,32 @@
 	
 	<header >
 		<div class="mobile-hide">
-			{% if request.user.is_authenticated %}
+
 			<div class="upper-menu fundo-branco">
-				Bem-vindo {{request.user.username}}
-			</div>
+			{% if request.user.is_authenticated %}
+				<p class="welcome text-font">Bem-vindo, <span class="welcomelink">{{request.user.username}}</span>! Comece a calcular sua alimentação.</p>
+			{% else %}
+				<p class="welcome text-font">Você não está logado. <a class="welcomelink" href="{% url 'signup' %}">Cadastre-se</a>, ou <a id="welcomelink" href="{% url 'logmein' %}">entre</a> para poder salvar seus pratos.</p>			
 			{% endif %}
+			</div>
+
 			<nav class="navigation fundo-laranja fonte-nav">
-				<ul>
+				<ul class="navitems">
 					<li><a href="{% url 'index' %}">SOBRE</a></li>
 					<li><a href="{% url 'foodlist' %}">ALIMENTOS</a></li>
 					<li><a href="{% url 'meal' %}">MEU PRATO</a></li>
 					{% if request.user.is_authenticated %}
-					<li><a href="{% url 'account' %}">MINHA CONTA</a></li>
+
+					<li class="dropdown"><a href="#">MINHA CONTA</a>
+						<ul class="dropdowncontent">
+							<li><a href="{% url 'account' %}" >MEUS DADOS</a></li>
+							<hr class="baige-line">
+							<li><a href="{% url 'mymeallist' %}" >PRATOS SALVOS</a></li>
+						</ul>
+					</li>
 					<li><a href="{% url 'logmeout' %}">SAIR</a></li>
 					{% else %}
+
 					<li><a href="{% url 'signup' %}">CADASTRE-SE</a></li>
 					<li><a href="{% url 'logmein' %}">ENTRAR</a></li>
 					{% endif %}
@@ -37,7 +50,7 @@
 		</div>
 
  		<div id="title" class="desktop-hide">
- 			<h1 class="title-font">NutriZONE</h1>
+ 			<h1 class="title-font">NutriLATOR</h1>
  		</div>
 		<div>
 			<button class="button menu-button menu-font desktop-hide"><i id='menu-open' class="fa fa-bars" aria-hidden="true"></i><i id='menu-close' class="fa fa-times hide" aria-hidden="true"></i>MENU</button>
@@ -59,13 +72,17 @@
 		</div>
 
 	</header>
-	<section id="content" class="fundo-branco">
-		<div id="alimento">
-			<div class="description text-font">
+    <section class="fundo-branco">
+    {% block intro %}{% endblock intro %}
+   		<div class="content">
+    		<div class="description text-font">
 				{% block content %} {% endblock %}
 			</div>
 		</div>
-	</section>
+    </section>
+
+    <footer style="background-color: #7D6962; height: 100px">
+    </footer> 
 </body>
 
 <script src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>

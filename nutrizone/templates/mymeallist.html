@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="subtitle">
+    <h2>Pratos salvos</h2>
+</div>
+
+<div>
+{% for meal in meals %}
+    <a href="mymeallist/{{meal.name}}">{{meal.name}}</a></p>
+{% endfor %}
+</div>
+{% endblock %}

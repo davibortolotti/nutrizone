@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Entre</h2>
-  <form method="post">
-    {% csrf_token %}
+
+<h2>Entre</h2>
+<form method="post">
+  {% csrf_token %}
 <!--     <p>Nome do usuário: {{form.username}}</p>
-    <p>Senha: {{form.password}}</p> -->
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-      </p>
-    {% endfor %}
-    <p style="color: red">
-    {% for message in errors %}
-      {{ message }}
-    {% endfor %}
+  <p>Senha: {{form.password}}</p> -->
+  {% for field in form %}
+    <p>
+      {{ field.label_tag }}<br>
+      {{ field }}
     </p>
-    <button type="submit">Entrar</button>
-  </form>
+  {% endfor %}
+  <p style="color: red">
+  {% for message in errors %}
+    {{ message }}
+  {% endfor %}
+  </p>
+  <button type="submit">Entrar</button>
+</form>
+
 {% endblock %}

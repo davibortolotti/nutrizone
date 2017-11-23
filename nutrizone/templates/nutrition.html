@@ -1,34 +1,38 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-	<div id="food">
-		
-		<p><span id="foodname" class="bold">{{ food.brname }}</span></p>
-		
-		<p>Cada 100g de {{ food.brname|lower }} contém:</p>
-		
-		<p><span class="bold">Calorias:</span> {{energy.value}}{{energy.unit}}</p> 
-		
-		{% if sugars %} <p><span class="bold">Açúcares:</span> {{sugars.value}}{{sugars.unit}} </p>{% endif %}
-		
-		<p><span class="bold">Gordura:</span> {{fat.value}}{{fat.unit}}</p>
-		
+<div id="food">
+	<div class="subtitle">
+		<h2 id="foodname">{{ food.brname }}</h2>
+	</div>
+
+	<div>
+		<p class="align-center">Cada 100g de {{ food.brname|lower }} contém:</p>
+		<div class="food-info">
+			<p><span class="bold">Calorias:</span> {{energy.value}}{{energy.unit}}</p> 
+			{% if sugars %} <p><span class="bold">Açúcares:</span> {{sugars.value}}{{sugars.unit}} </p>{% endif %}
+			<p><span class="bold">Gordura:</span> {{fat.value}}{{fat.unit}}</p>
+		</div>
+	</div>	
+
+	<div class="food-form">
+
 		<form id="quantity-form" method="POST">
 			{% csrf_token %}	
-
-			Quantidade (g): <input type="number" class="quantity" size="20" name="quantity" required oninvalid="this.setCustomValidity('Preencha a quantidade.')" oninput="setCustomValidity('')""></input></br>
-
+			Quantidade (g): <input type="number" class="quantity" size="20" name="quantity" required oninvalid="this.setCustomValidity('Preencha a quantidade.')" oninput="setCustomValidity('')""></input>
 			<button type="submit" class="button menu-font add-to-plate" value="Adicionar ao prato" name="mybtn">Adicionar ao prato</button>
-
 		</form>
 
-		<p>Dica: Uma {{food.altmeasurename|lower}} deste alimento possui {{food.altmeasuregram|lower}}g ;)</p>
-	</div>
-	
-	<div class="added">	
-	</div>
+		<p class="subtext-font">Dica: Uma {{food.altmeasurename|lower}} deste alimento possui {{food.altmeasuregram|lower}}g ;)</p>
 
-	<a href=" {% url 'meal' %}">Ir para o prato</a>
+		<div class="added">	
+		</div>
+
+		<a href=" {% url 'meal' %}">Ir para o prato</a>
+	</div>
+</div>
+
+
 
 
 {% endblock %}
